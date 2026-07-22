@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+
+export const revalidate = 86400; // 24-hour Incremental Static Regeneration (ISR)
 import Header from "@/components/common/Header";
 import Footer from "@/components/common/Footer";
 import Hero from "@/components/Hero";
