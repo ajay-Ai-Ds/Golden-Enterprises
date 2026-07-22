@@ -13,7 +13,7 @@ export default function AudioManager() {
   const birdTimerRef = useRef<NodeJS.Timeout | null>(null);
   const mp3Ref = useRef<HTMLAudioElement | null>(null);
 
-  // Initialize Web Audio API Context & MP3 Player
+  // Initialize Web Audio API Context & Custom MP3 Audio Player
   const initAudio = () => {
     if (!audioCtxRef.current && typeof window !== "undefined") {
       const AudioCtx =
@@ -27,16 +27,16 @@ export default function AudioManager() {
       audioCtxRef.current.resume();
     }
 
-    // MP3 Audio File Player (/public/audio/sky_track.mp3)
+    // Load custom user audio track (/audio/Golden-Enterprises.mp3)
     if (!mp3Ref.current && typeof window !== "undefined") {
-      const audio = new Audio("/audio/sky_track.mp3");
+      const audio = new Audio("/audio/Golden-Enterprises.mp3");
       audio.loop = true;
-      audio.volume = 0.4;
+      audio.volume = 0.65;
       mp3Ref.current = audio;
     }
   };
 
-  // Play custom MP3 file or fallback to Web Audio API synthesis
+  // Play custom Golden-Enterprises.mp3 audio track or fallback to Web Audio API synthesis
   const startAudioTrack = () => {
     initAudio();
 
@@ -44,10 +44,10 @@ export default function AudioManager() {
       mp3Ref.current
         .play()
         .then(() => {
-          // Custom MP3 playing successfully
+          // Playing custom Golden-Enterprises.mp3 track successfully
         })
         .catch(() => {
-          // MP3 file not found or blocked, fallback to Web Audio synthesis
+          // Fallback to Web Audio coastal sky breeze if MP3 blocked
           startCoastalBreezeTrack();
         });
     } else {
@@ -216,8 +216,8 @@ export default function AudioManager() {
           >
             <Wind className="w-4 h-4 text-[#2E86FF] animate-pulse" />
             <div>
-              <span className="block font-bold">Play Coastal Sky Track</span>
-              <span className="text-[10px] text-[#9AA5AD]">Drop MP3 in public/audio/sky_track.mp3</span>
+              <span className="block font-bold">Play Golden Enterprises Audio</span>
+              <span className="text-[10px] text-[#9AA5AD]">Playing Golden-Enterprises.mp3</span>
             </div>
           </motion.div>
         )}
@@ -227,7 +227,7 @@ export default function AudioManager() {
         whileHover={{ scale: 1.08 }}
         whileTap={{ scale: 0.95 }}
         onClick={toggleSound}
-        aria-label={isMuted ? "Play Coastal Sky Track" : "Mute Audio Track"}
+        aria-label={isMuted ? "Play Golden Enterprises Audio" : "Mute Audio Track"}
         className={`w-12 h-12 rounded-full flex items-center justify-center border backdrop-blur-2xl shadow-2xl transition-all duration-300 ${
           !isMuted
             ? "bg-[#2E86FF] text-white border-white/30 shadow-[0_0_25px_rgba(46,134,255,0.7)]"
