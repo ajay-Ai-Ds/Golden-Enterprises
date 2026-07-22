@@ -22,19 +22,19 @@ body {
   overflow-x: hidden;
 }
 
-/* Custom Wire Lattice Background Pattern */
+/* Custom Straight Grill & Wire Net Pattern */
 .bg-wire-lattice {
   background-image: 
-    linear-gradient(45deg, rgba(199, 205, 211, 0.05) 1px, transparent 1px),
-    linear-gradient(-45deg, rgba(199, 205, 211, 0.05) 1px, transparent 1px);
-  background-size: 30px 30px;
+    linear-gradient(90deg, rgba(199, 205, 211, 0.08) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(199, 205, 211, 0.08) 1px, transparent 1px);
+  background-size: 25px 25px;
 }
 
 .bg-wire-lattice-glow {
   background-image: 
-    linear-gradient(45deg, rgba(46, 134, 255, 0.12) 1px, transparent 1px),
-    linear-gradient(-45deg, rgba(46, 134, 255, 0.12) 1px, transparent 1px);
-  background-size: 30px 30px;
+    linear-gradient(90deg, rgba(46, 134, 255, 0.15) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(46, 134, 255, 0.15) 1px, transparent 1px);
+  background-size: 25px 25px;
 }
 
 /* Metallic Wire Text Gradient */

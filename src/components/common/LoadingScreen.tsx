@@ -18,7 +18,6 @@ export default function LoadingScreen({
   }, [onComplete]);
 
   useEffect(() => {
-    // Check if session already visited with safety try-catch
     try {
       if (typeof window !== "undefined") {
         const visited = sessionStorage.getItem("ge_visited_session");
@@ -29,7 +28,7 @@ export default function LoadingScreen({
         }
       }
     } catch {
-      // Storage access blocked or restricted, continue showing loader smoothly
+      // Storage access blocked or restricted
     }
 
     let currentProgress = 0;
@@ -73,32 +72,28 @@ export default function LoadingScreen({
           }}
           className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#0A1218] text-white overflow-hidden select-none"
         >
-          {/* Background Weaving Net Animation */}
+          {/* Background Straight Parallel Grill Mesh */}
           <div className="absolute inset-0 opacity-20 pointer-events-none overflow-hidden">
             <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
               <defs>
                 <pattern
-                  id="wire-mesh"
-                  width="40"
-                  height="40"
+                  id="straight-wire-mesh"
+                  width="30"
+                  height="30"
                   patternUnits="userSpaceOnUse"
                 >
-                  <path
-                    d="M 0 20 L 40 20 M 20 0 L 20 40 M 0 0 L 40 40 M 40 0 L 0 40"
-                    fill="none"
-                    stroke="#C7CDD3"
-                    strokeWidth="0.5"
-                    strokeOpacity="0.4"
-                  />
+                  {/* Straight Narrow Vertical & Horizontal Grill Lines */}
+                  <line x1="15" y1="0" x2="15" y2="30" stroke="#C7CDD3" strokeWidth="0.6" strokeOpacity="0.4" />
+                  <line x1="0" y1="15" x2="30" y2="15" stroke="#C7CDD3" strokeWidth="0.6" strokeOpacity="0.4" />
                 </pattern>
               </defs>
-              <rect width="100%" height="100%" fill="url(#wire-mesh)" />
+              <rect width="100%" height="100%" fill="url(#straight-wire-mesh)" />
             </svg>
           </div>
 
           {/* Center Brand Wire Line Trace */}
           <div className="relative z-10 flex flex-col items-center px-4 max-w-xl text-center">
-            {/* Diamond Weave Stylized Badge SVG Animation */}
+            {/* Straight Grill Motif Badge SVG Animation */}
             <motion.div
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
@@ -118,16 +113,11 @@ export default function LoadingScreen({
                   strokeDashoffset={283 - (283 * progress) / 100}
                   className="transition-all duration-150"
                 />
-                {/* Inner Diamond Weave Net Lines */}
-                <path
-                  d="M50 10 L90 50 L50 90 L10 50 Z M50 25 L75 50 L50 75 L25 50 Z"
-                  fill="none"
-                  stroke="#2E86FF"
-                  strokeWidth="1.5"
-                  strokeDasharray="300"
-                  strokeDashoffset={300 - (300 * progress) / 100}
-                />
-                <circle cx="50" cy="50" r="4" fill="#F2A93B" />
+                {/* Straight Parallel Grill Wires */}
+                <line x1="30" y1="20" x2="30" y2="80" stroke="#2E86FF" strokeWidth="1.5" strokeDasharray="60" strokeDashoffset={60 - (60 * progress) / 100} />
+                <line x1="50" y1="15" x2="50" y2="85" stroke="#2E86FF" strokeWidth="1.5" strokeDasharray="70" strokeDashoffset={70 - (70 * progress) / 100} />
+                <line x1="70" y1="20" x2="70" y2="80" stroke="#2E86FF" strokeWidth="1.5" strokeDasharray="60" strokeDashoffset={60 - (60 * progress) / 100} />
+                <line x1="20" y1="50" x2="80" y2="50" stroke="#F2A93B" strokeWidth="1.5" strokeDasharray="60" strokeDashoffset={60 - (60 * progress) / 100} />
               </svg>
             </motion.div>
 

@@ -12,35 +12,26 @@ export default function InvisibleMesh({ scrollProgress = 0 }: InvisibleMeshProps
   const lineRef = useRef<THREE.LineSegments>(null);
   const materialRef = useRef<THREE.LineBasicMaterial>(null);
 
-  // Generate sparse steel wire lattice geometry (vertical invisible grills + subtle diamond mesh)
+  // Clean, narrow, straight vertical & horizontal invisible grill cables (316 Grade SS Wire Spec)
   const lineGeometry = useMemo(() => {
     const points: number[] = [];
-    const width = 14;
-    const height = 9;
+    const width = 16;
+    const height = 10;
     
-    // Vertical Invisible Grill Wires (Sparse 50mm spacing equivalent)
-    const vertCols = 16;
+    // Straight Narrow Vertical Invisible Grill Cables (Precision 50mm parallel spacing)
+    const vertCols = 32;
     for (let i = 0; i <= vertCols; i++) {
       const x = -width / 2 + (width / vertCols) * i;
       points.push(x, -height / 2, 0);
       points.push(x, height / 2, 0);
     }
 
-    // Horizontal tensioning cables
-    const horizRows = 6;
+    // Straight Narrow Horizontal Tension Cables
+    const horizRows = 12;
     for (let j = 0; j <= horizRows; j++) {
       const y = -height / 2 + (height / horizRows) * j;
       points.push(-width / 2, y, 0);
       points.push(width / 2, y, 0);
-    }
-
-    // Sparse diamond netting accents
-    const netCount = 8;
-    for (let k = 0; k < netCount; k++) {
-      const x1 = -width / 2 + (width / netCount) * k;
-      const x2 = x1 + width / netCount;
-      points.push(x1, -height / 2, 0);
-      points.push(x2, height / 2, 0);
     }
 
     const geometry = new THREE.BufferGeometry();
@@ -55,8 +46,7 @@ export default function InvisibleMesh({ scrollProgress = 0 }: InvisibleMeshProps
     if (!materialRef.current) return;
     const time = clock.getElapsedTime();
 
-    // Wave pattern of light catching the wires
-    // Increases catch-light intensity on scroll
+    // Wave pattern of light catching the straight steel cables
     const wave = Math.sin(time * 1.5 + scrollProgress * Math.PI * 2) * 0.5 + 0.5;
     const scrollGlow = scrollProgress * 0.6;
     
@@ -70,7 +60,7 @@ export default function InvisibleMesh({ scrollProgress = 0 }: InvisibleMeshProps
 
   return (
     <group position={[0, 0, 0.5]}>
-      {/* Invisible Wire Grid Line Segments */}
+      {/* Straight Parallel Invisible Grill Cables */}
       <lineSegments ref={lineRef} geometry={lineGeometry}>
         <lineBasicMaterial
           ref={materialRef}
@@ -82,13 +72,13 @@ export default function InvisibleMesh({ scrollProgress = 0 }: InvisibleMeshProps
         />
       </lineSegments>
 
-      {/* Subtle Light reflection nodes at wire intersections */}
+      {/* Subtle Light reflection plane behind cables */}
       <mesh position={[0, 0, 0]}>
-        <planeGeometry args={[14, 9]} />
+        <planeGeometry args={[16, 10]} />
         <meshBasicMaterial
           color="#2E86FF"
           transparent
-          opacity={0.03 + scrollProgress * 0.05}
+          opacity={0.02 + scrollProgress * 0.04}
           blending={THREE.AdditiveBlending}
           depthWrite={false}
         />

@@ -25,31 +25,30 @@ export default function HeroFallback() {
         style={{ transform: `translate(calc(-50% + ${mousePos.x}px), ${mousePos.y}px)` }}
       />
 
-      {/* SVG Diamond Wire Lattice Overlay with glowing stroke */}
+      {/* SVG Straight Parallel Invisible Grill Cable Overlay */}
       <div className="absolute inset-0 opacity-25">
         <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <linearGradient id="wire-glow-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <linearGradient id="wire-glow-grad" x1="0%" y1="0%" x2="0%" y2="100%">
               <stop offset="0%" stopColor="#C7CDD3" stopOpacity="0.2" />
               <stop offset="50%" stopColor="#2E86FF" stopOpacity="0.8" />
               <stop offset="100%" stopColor="#C7CDD3" stopOpacity="0.2" />
             </linearGradient>
             <pattern
-              id="steel-mesh-pattern"
-              width="60"
-              height="60"
+              id="straight-steel-grill-pattern"
+              width="40"
+              height="40"
               patternUnits="userSpaceOnUse"
             >
-              {/* Invisible Grill Vertical Wires */}
-              <line x1="15" y1="0" x2="15" y2="60" stroke="url(#wire-glow-grad)" strokeWidth="0.8" />
-              <line x1="45" y1="0" x2="45" y2="60" stroke="url(#wire-glow-grad)" strokeWidth="0.8" />
-              {/* Horizontal Cables */}
-              <line x1="0" y1="30" x2="60" y2="30" stroke="#C7CDD3" strokeWidth="0.4" strokeOpacity="0.4" />
-              {/* Diamond Weave Nodes */}
-              <polygon points="30,0 60,30 30,60 0,30" fill="none" stroke="#2E86FF" strokeWidth="0.4" strokeOpacity="0.3" />
+              {/* Straight Parallel Vertical Invisible Grill Wires */}
+              <line x1="10" y1="0" x2="10" y2="40" stroke="url(#wire-glow-grad)" strokeWidth="0.8" />
+              <line x1="20" y1="0" x2="20" y2="40" stroke="url(#wire-glow-grad)" strokeWidth="0.8" />
+              <line x1="30" y1="0" x2="30" y2="40" stroke="url(#wire-glow-grad)" strokeWidth="0.8" />
+              {/* Horizontal Tension Cables */}
+              <line x1="0" y1="20" x2="40" y2="20" stroke="#C7CDD3" strokeWidth="0.5" strokeOpacity="0.4" />
             </pattern>
           </defs>
-          <rect width="100%" height="100%" fill="url(#steel-mesh-pattern)" />
+          <rect width="100%" height="100%" fill="url(#straight-steel-grill-pattern)" />
         </svg>
       </div>
 
