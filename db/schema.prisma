@@ -1,0 +1,89 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum PageStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+model City {
+  id         String   @id @default(uuid())
+  name       String
+  slug       String   @unique
+  state      String
+  created_at DateTime @default(now())
+}
+
+model Area {
+  id        String   @id @default(uuid())
+  name      String
+  slug      String   @unique
+  city      String   @default("Chennai")
+  pincode   String?
+  latitude  Float?
+  longitude Float?
+}
+
+model Service {
+  id       String @id @default(uuid())
+  name     String
+  slug     String @unique
+  icon     String
+  priority Int    @default(1)
+}
+
+model SeoPage {
+  id               String     @id @default(uuid())
+  service          String
+  area             String
+  city             String     @default("Chennai")
+  slug             String     @unique
+  status           PageStatus @default(PUBLISHED)
+  hero_title       String
+  hero_subtitle    String
+  content_json     Json
+  faq_json         Json
+  schema_json      Json
+  seo_title        String
+  meta_description String
+  keywords         String[]
+  word_count       Int        @default(2500)
+  created_at       DateTime   @default(now())
+  updated_at       DateTime   @updatedAt
+}
+
+model BlogPost {
+  id           String     @id @default(uuid())
+  title        String
+  slug         String     @unique
+  content      String
+  status       PageStatus @default(PUBLISHED)
+  published_at DateTime   @default(now())
+}
+
+model Lead {
+  id          String   @id @default(uuid())
+  name        String
+  phone       String
+  service     String?
+  area        String?
+  status      String   @default("NEW")
+  assigned_to String?
+  created_at  DateTime @default(now())
+}
+
+model Review {
+  id            String @id @default(uuid())
+  customer_name String
+  rating        Int    @default(5)
+  review        String
+  service       String
+  area          String
+}
