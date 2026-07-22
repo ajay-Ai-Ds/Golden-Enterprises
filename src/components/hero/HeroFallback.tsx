@@ -53,38 +53,41 @@ export default function HeroFallback() {
         </svg>
       </div>
 
-      {/* Flock of Flying Pigeons across Sky & Header */}
+      {/* Flock of White & Red Flying Pigeons across Sky & Header */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {[...Array(35)].map((_, i) => (
-          <motion.div
-            key={i}
-            initial={{ x: "-10vw", y: `${5 + (i * 7) % 65}vh`, opacity: 0 }}
-            animate={{
-              x: "110vw",
-              y: [
-                `${5 + (i * 7) % 65}vh`,
-                `${2 + (i * 6) % 60}vh`,
-                `${8 + (i * 8) % 70}vh`,
-              ],
-              opacity: [0.1, 0.7, 0.1],
-            }}
-            transition={{
-              duration: 12 + (i % 8) * 2,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: (i * 0.4) % 10,
-            }}
-            className="absolute text-[#9AA5AD]"
-            style={{
-              width: `${14 + (i % 5) * 4}px`,
-              height: `${14 + (i % 5) * 4}px`,
-            }}
-          >
-            <svg viewBox="0 0 24 24" fill="currentColor">
-              <path d="M2 12c4-3 7-3 10 0 3-3 6-3 10 0-4 1-7 0-10-2-3 2-6 3-10 2z" />
-            </svg>
-          </motion.div>
-        ))}
+        {[...Array(40)].map((_, i) => {
+          const isRed = i % 3 === 0;
+          return (
+            <motion.div
+              key={i}
+              initial={{ x: "-10vw", y: `${5 + (i * 6) % 65}vh`, opacity: 0 }}
+              animate={{
+                x: "110vw",
+                y: [
+                  `${5 + (i * 6) % 65}vh`,
+                  `${2 + (i * 5) % 60}vh`,
+                  `${8 + (i * 7) % 70}vh`,
+                ],
+                opacity: [0.2, 0.95, 0.2],
+              }}
+              transition={{
+                duration: 10 + (i % 6) * 2,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: (i * 0.3) % 8,
+              }}
+              className={`absolute ${isRed ? "text-[#FF3B30] drop-shadow-[0_0_8px_rgba(255,59,48,0.8)]" : "text-white drop-shadow-[0_0_6px_rgba(255,255,255,0.8)]"}`}
+              style={{
+                width: `${14 + (i % 5) * 4}px`,
+                height: `${14 + (i % 5) * 4}px`,
+              }}
+            >
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M2 12c4-3 7-3 10 0 3-3 6-3 10 0-4 1-7 0-10-2-3 2-6 3-10 2z" />
+              </svg>
+            </motion.div>
+          );
+        })}
       </div>
     </div>
   );

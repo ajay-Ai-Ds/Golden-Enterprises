@@ -11,21 +11,36 @@ interface BirdFlockProps {
 export default function BirdFlock({ count = 10000 }: BirdFlockProps) {
   const meshRef = useRef<THREE.InstancedMesh>(null);
 
-  // Pre-allocated typed arrays for 10,000 flying pigeons to maintain 60 FPS
-  const flockData = useMemo(() => {
+  // Pre-allocated typed arrays for 10,000 flying pigeons with white/red color attributes
+  const { flockData, colorArray } = useMemo(() => {
     const data = new Float32Array(count * 8); // x, y, z, speed, wingSpeed, phase, scale, arcDir
+    const colors = new Float32Array(count * 3); // r, g, b per pigeon
+
     for (let i = 0; i < count; i++) {
       const idx = i * 8;
-      data[idx + 0] = (Math.random() - 0.5) * 45; // Wide horizontal spread (-22.5 to 22.5)
-      data[idx + 1] = (Math.random() - 0.5) * 20 + 2; // Vertical height spread
-      data[idx + 2] = -60 + Math.random() * 65; // Layered depth from -60 to +5
-      data[idx + 3] = 0.08 + Math.random() * 0.08; // Flight speed
+      data[idx + 0] = (Math.random() - 0.5) * 48; // Wide horizontal spread
+      data[idx + 1] = (Math.random() - 0.5) * 22 + 2; // Vertical height spread
+      data[idx + 2] = -65 + Math.random() * 70; // Layered depth from -65 to +5
+      data[idx + 3] = 0.08 + Math.random() * 0.09; // Flight speed
       data[idx + 4] = 12 + Math.random() * 10; // Wing flap frequency
       data[idx + 5] = Math.random() * Math.PI * 2; // Phase offset
-      data[idx + 6] = 0.15 + Math.random() * 0.25; // Scale
+      data[idx + 6] = 0.16 + Math.random() * 0.26; // Scale
       data[idx + 7] = Math.random() > 0.5 ? 1 : -1; // Arc direction
+
+      // Color assignment: 70% crisp pure White (#FFFFFF), 30% vibrant Red (#FF3B30 / #EF4444)
+      const isRed = Math.random() < 0.3;
+      const cIdx = i * 3;
+      if (isRed) {
+        colors[cIdx + 0] = 0.98; // Red
+        colors[cIdx + 1] = 0.22; // Green
+        colors[cIdx + 2] = 0.22; // Blue
+      } else {
+        colors[cIdx + 0] = 1.0; // Pure White
+        colors[cIdx + 1] = 1.0;
+        colors[cIdx + 2] = 1.0;
+      }
     }
-    return data;
+    return { flockData: data, colorArray: colors };
   }, [count]);
 
   // Lightweight 6-vertex low-poly pigeon geometry for GPU instancing
@@ -42,8 +57,15 @@ export default function BirdFlock({ count = 10000 }: BirdFlockProps) {
     shape.closePath();
 
     const extrudeSettings = { depth: 0.02, bevelEnabled: false };
-    return new THREE.ExtrudeGeometry(shape, extrudeSettings);
-  }, []);
+    const geom = new THREE.ExtrudeGeometry(shape, extrudeSettings);
+
+    // Attach instanced color attribute
+    geom.setAttribute(
+      "color",
+      new THREE.InstancedBufferAttribute(colorArray, 3)
+    );
+    return geom;
+  }, [colorArray]);
 
   const dummy = useMemo(() => new THREE.Object3D(), []);
 
@@ -62,9 +84,9 @@ export default function BirdFlock({ count = 10000 }: BirdFlockProps) {
       const scale = flockData[idx + 6];
       const arcDir = flockData[idx + 7];
 
-      // Infinite continuous flight loop along Z depth
-      const zRange = 65;
-      let currentZ = ((originZ + time * speed * 25 + phase * 10) % zRange) - 60;
+      // Continuous flight loop along Z depth
+      const zRange = 70;
+      let currentZ = ((originZ + time * speed * 25 + phase * 10) % zRange) - 65;
 
       let currentX = originX;
       let currentY = originY;
@@ -101,10 +123,10 @@ export default function BirdFlock({ count = 10000 }: BirdFlockProps) {
       frustumCulled={false}
     >
       <meshBasicMaterial
-        color="#1A2836"
+        vertexColors
         side={THREE.DoubleSide}
         transparent
-        opacity={0.75}
+        opacity={0.9}
       />
     </instancedMesh>
   );
