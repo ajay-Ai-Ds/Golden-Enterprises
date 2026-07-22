@@ -11,8 +11,9 @@ export default function AudioManager() {
   const breezeGainRef = useRef<GainNode | null>(null);
   const breezeSourceRef = useRef<AudioBufferSourceNode | null>(null);
   const birdTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const mp3Ref = useRef<HTMLAudioElement | null>(null);
 
-  // Initialize Web Audio API Context
+  // Initialize Web Audio API Context & MP3 Player
   const initAudio = () => {
     if (!audioCtxRef.current && typeof window !== "undefined") {
       const AudioCtx =
@@ -25,6 +26,40 @@ export default function AudioManager() {
     if (audioCtxRef.current && audioCtxRef.current.state === "suspended") {
       audioCtxRef.current.resume();
     }
+
+    // MP3 Audio File Player (/public/audio/sky_track.mp3)
+    if (!mp3Ref.current && typeof window !== "undefined") {
+      const audio = new Audio("/audio/sky_track.mp3");
+      audio.loop = true;
+      audio.volume = 0.4;
+      mp3Ref.current = audio;
+    }
+  };
+
+  // Play custom MP3 file or fallback to Web Audio API synthesis
+  const startAudioTrack = () => {
+    initAudio();
+
+    if (mp3Ref.current) {
+      mp3Ref.current
+        .play()
+        .then(() => {
+          // Custom MP3 playing successfully
+        })
+        .catch(() => {
+          // MP3 file not found or blocked, fallback to Web Audio synthesis
+          startCoastalBreezeTrack();
+        });
+    } else {
+      startCoastalBreezeTrack();
+    }
+  };
+
+  const stopAudioTrack = () => {
+    if (mp3Ref.current) {
+      mp3Ref.current.pause();
+    }
+    stopCoastalBreezeTrack();
   };
 
   // Synthesize Coastal Sky Breeze Background Loop
@@ -76,7 +111,6 @@ export default function AudioManager() {
     scheduleMorningBirdChirps();
   };
 
-  // Stop background track
   const stopCoastalBreezeTrack = () => {
     if (breezeGainRef.current && audioCtxRef.current) {
       breezeGainRef.current.gain.exponentialRampToValueAtTime(0.0001, audioCtxRef.current.currentTime + 0.5);
@@ -91,7 +125,6 @@ export default function AudioManager() {
     }
   };
 
-  // Synthesize delicate distant bird chirps
   const playDistantBirdChirp = () => {
     if (!audioCtxRef.current || isMuted) return;
     try {
@@ -125,7 +158,6 @@ export default function AudioManager() {
     }, nextInterval);
   };
 
-  // Synthesize metallic wire catch-light chime on UI click
   const playWireChimeSFX = () => {
     if (!audioCtxRef.current || isMuted) return;
     try {
@@ -149,15 +181,14 @@ export default function AudioManager() {
   };
 
   const toggleSound = () => {
-    initAudio();
     if (isMuted) {
       setIsMuted(false);
       setHasInteracted(true);
-      startCoastalBreezeTrack();
+      startAudioTrack();
       playWireChimeSFX();
     } else {
       setIsMuted(true);
-      stopCoastalBreezeTrack();
+      stopAudioTrack();
     }
   };
 
@@ -174,7 +205,6 @@ export default function AudioManager() {
   }, [isMuted]);
 
   return (
-    /* Clean Bottom-Left Positioning (Zero overlap with bottom-right Call/WhatsApp buttons) */
     <div className="fixed bottom-6 left-6 z-50 select-none flex flex-col items-start">
       <AnimatePresence>
         {!hasInteracted && isMuted && (
@@ -187,13 +217,12 @@ export default function AudioManager() {
             <Wind className="w-4 h-4 text-[#2E86FF] animate-pulse" />
             <div>
               <span className="block font-bold">Play Coastal Sky Track</span>
-              <span className="text-[10px] text-[#9AA5AD]">Chennai Balcony Atmosphere</span>
+              <span className="text-[10px] text-[#9AA5AD]">Drop MP3 in public/audio/sky_track.mp3</span>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Mute / Unmute Toggle Button */}
       <motion.button
         whileHover={{ scale: 1.08 }}
         whileTap={{ scale: 0.95 }}
