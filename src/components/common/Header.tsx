@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Shield, PhoneCall } from "lucide-react";
+import { Menu, X, PhoneCall, MessageSquare } from "lucide-react";
 
 const NAV_ITEMS = [
   { name: "Home", href: "#home" },
@@ -16,6 +16,10 @@ const NAV_ITEMS = [
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const whatsappUrl = `https://wa.me/919876543210?text=${encodeURIComponent(
+    "Hi Golden Enterprises, I need a free quote for balcony invisible grills/nets in Chennai."
+  )}`;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -41,9 +45,7 @@ export default function Header() {
         <a href="#home" className="flex items-center gap-3 group">
           <div className="relative w-10 h-10 rounded-full bg-[#0A1218] border border-[#C7CDD3]/30 p-1 flex items-center justify-center group-hover:border-[#2E86FF] transition-all duration-300 shadow-[0_0_12px_rgba(46,134,255,0.2)]">
             <svg viewBox="0 0 40 40" className="w-full h-full text-[#C7CDD3] group-hover:text-[#2E86FF] transition-colors duration-300">
-              {/* Outer Diamond Boundary */}
               <polygon points="20,2 38,20 20,38 2,20" fill="none" stroke="currentColor" strokeWidth="1.5" />
-              {/* Internal Mesh Weave Lines */}
               <line x1="20" y1="2" x2="20" y2="38" stroke="currentColor" strokeWidth="1" strokeDasharray="2 2" />
               <line x1="2" y1="20" x2="38" y2="20" stroke="currentColor" strokeWidth="1" strokeDasharray="2 2" />
               <polygon points="20,10 30,20 20,30 10,20" fill="none" stroke="#F2A93B" strokeWidth="1" />
@@ -74,8 +76,20 @@ export default function Header() {
           ))}
         </nav>
 
-        {/* Desktop Call/CTA Button */}
-        <div className="hidden md:flex items-center gap-4">
+        {/* Desktop Action Buttons: Universal WhatsApp + Phone CTA */}
+        <div className="hidden md:flex items-center gap-3">
+          {/* Universal WhatsApp Icon Button */}
+          <a
+            href={whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Contact on WhatsApp"
+            className="p-2.5 rounded-full bg-[#25D366]/20 border border-[#25D366]/50 text-[#25D366] hover:bg-[#25D366] hover:text-white transition-all duration-300 shadow-[0_0_15px_rgba(37,211,102,0.3)] flex items-center justify-center"
+          >
+            <MessageSquare className="w-4 h-4 fill-current" />
+          </a>
+
+          {/* Phone Quote CTA */}
           <a
             href="tel:+919876543210"
             className="relative group px-5 py-2.5 rounded-full text-xs font-semibold uppercase tracking-wider text-white border border-[#2E86FF]/50 bg-[#2E86FF]/10 hover:bg-[#2E86FF] hover:border-[#2E86FF] transition-all duration-300 shadow-[0_0_15px_rgba(46,134,255,0.25)] hover:shadow-[0_0_25px_rgba(46,134,255,0.6)] flex items-center gap-2 overflow-hidden"
@@ -116,14 +130,28 @@ export default function Header() {
                   <span className="text-[#2E86FF] opacity-0 hover:opacity-100">→</span>
                 </a>
               ))}
-              <a
-                href="tel:+919876543210"
-                onClick={() => setMobileMenuOpen(false)}
-                className="mt-2 w-full text-center py-3 rounded-xl bg-[#2E86FF] text-white font-semibold text-sm uppercase tracking-wider shadow-[0_0_20px_rgba(46,134,255,0.4)] flex items-center justify-center gap-2"
-              >
-                <PhoneCall className="w-4 h-4" />
-                <span>Call Now for Free Consultation</span>
-              </a>
+              
+              <div className="flex flex-col gap-3 mt-2">
+                <a
+                  href={whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="w-full text-center py-3 rounded-xl bg-[#25D366] text-white font-semibold text-sm uppercase tracking-wider shadow-[0_0_20px_rgba(37,211,102,0.4)] flex items-center justify-center gap-2"
+                >
+                  <MessageSquare className="w-4 h-4 fill-white" />
+                  <span>Chat on WhatsApp</span>
+                </a>
+
+                <a
+                  href="tel:+919876543210"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="w-full text-center py-3 rounded-xl bg-[#2E86FF] text-white font-semibold text-sm uppercase tracking-wider shadow-[0_0_20px_rgba(46,134,255,0.4)] flex items-center justify-center gap-2"
+                >
+                  <PhoneCall className="w-4 h-4" />
+                  <span>Call +91 98765 43210</span>
+                </a>
+              </div>
             </div>
           </motion.div>
         )}
