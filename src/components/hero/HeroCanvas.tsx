@@ -70,8 +70,8 @@ export default function HeroCanvas() {
 
         <CameraRig setScrollProgress={setScrollProgress} />
 
-        {/* Low-poly Flocking Birds */}
-        <BirdFlock count={16} />
+        {/* Low-poly Flocking Pigeons (120 Pigeons in 3D Sky) */}
+        <BirdFlock count={120} />
 
         {/* Sparse Invisible Wire Mesh Plane */}
         <InvisibleMesh scrollProgress={scrollProgress} />

@@ -53,24 +53,32 @@ export default function HeroFallback() {
         </svg>
       </div>
 
-      {/* Lightweight SVG Birds Silhouette Flight Path */}
+      {/* Flock of Flying Pigeons across Sky & Header */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {[...Array(6)].map((_, i) => (
+        {[...Array(35)].map((_, i) => (
           <motion.div
             key={i}
-            initial={{ x: "-10vw", y: `${20 + i * 12}vh`, opacity: 0.7 }}
+            initial={{ x: "-10vw", y: `${5 + (i * 7) % 65}vh`, opacity: 0 }}
             animate={{
               x: "110vw",
-              y: [`${20 + i * 12}vh`, `${15 + i * 10}vh`, `${25 + i * 12}vh`],
-              opacity: [0.3, 0.8, 0.2],
+              y: [
+                `${5 + (i * 7) % 65}vh`,
+                `${2 + (i * 6) % 60}vh`,
+                `${8 + (i * 8) % 70}vh`,
+              ],
+              opacity: [0.1, 0.7, 0.1],
             }}
             transition={{
-              duration: 18 + i * 4,
+              duration: 12 + (i % 8) * 2,
               repeat: Infinity,
               ease: "easeInOut",
-              delay: i * 2.5,
+              delay: (i * 0.4) % 10,
             }}
-            className="absolute w-6 h-6 text-[#9AA5AD]"
+            className="absolute text-[#9AA5AD]"
+            style={{
+              width: `${14 + (i % 5) * 4}px`,
+              height: `${14 + (i % 5) * 4}px`,
+            }}
           >
             <svg viewBox="0 0 24 24" fill="currentColor">
               <path d="M2 12c4-3 7-3 10 0 3-3 6-3 10 0-4 1-7 0-10-2-3 2-6 3-10 2z" />
