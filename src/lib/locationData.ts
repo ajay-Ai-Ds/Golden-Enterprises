@@ -32,10 +32,10 @@ export const CITIES: CityData[] = [
     lng: 80.2452,
     areas: [
       { slug: "velachery", name: "Velachery", landmark: "Near Vijayanagar & Bypass Road" },
+      { slug: "anna-nagar", name: "Anna Nagar", landmark: "Roundtana & Tower Park" },
       { slug: "omr", name: "OMR IT Corridor", landmark: "Perungudi to Siruseri" },
       { slug: "tambaram", name: "Tambaram", landmark: "East & West Tambaram" },
       { slug: "porur", name: "Porur", landmark: "Near Mount-Poonamallee Road" },
-      { slug: "anna-nagar", name: "Anna Nagar", landmark: "Roundtana & Tower Park" },
       { slug: "perungudi", name: "Perungudi", landmark: "RMZ Millenia & OMR" },
       { slug: "medavakkam", name: "Medavakkam", landmark: "Medavakkam-Mambakkam Road" },
       { slug: "sholinganallur", name: "Sholinganallur", landmark: "ELCOT IT Park" },
@@ -53,6 +53,34 @@ export const CITIES: CityData[] = [
       { slug: "navallur", name: "Navalur", landmark: "Vivira Mall & OMR" },
     ],
   },
+  {
+    slug: "bangalore",
+    name: "Bangalore",
+    state: "Karnataka",
+    lat: 12.9716,
+    lng: 77.5946,
+    areas: [
+      { slug: "whitefield", name: "Whitefield", landmark: "ITPL Main Road & Hope Farm" },
+      { slug: "hsr-layout", name: "HSR Layout", landmark: "Sector 1 to 7" },
+      { slug: "electronic-city", name: "Electronic City", landmark: "Phase 1 & 2" },
+      { slug: "indiranagar", name: "Indiranagar", landmark: "100 Feet Road" },
+      { slug: "koramangala", name: "Koramangala", landmark: "Forum Mall Region" },
+    ],
+  },
+  {
+    slug: "hyderabad",
+    name: "Hyderabad",
+    state: "Telangana",
+    lat: 17.385,
+    lng: 78.4867,
+    areas: [
+      { slug: "gachibowli", name: "Gachibowli", landmark: "Financial District" },
+      { slug: "kondapur", name: "Kondapur", landmark: "Near Botanical Garden" },
+      { slug: "madhapur", name: "Madhapur", landmark: "HITEC City" },
+      { slug: "jubilee-hills", name: "Jubilee Hills", landmark: "Road No 36" },
+      { slug: "miyapur", name: "Miyapur", landmark: "Near Metro Station" },
+    ],
+  },
 ];
 
 export const SERVICES: ServiceData[] = [
@@ -62,7 +90,7 @@ export const SERVICES: ServiceData[] = [
     category: "Safety Nets",
     description: "UV-stabilized copolymer nylon netting for high-rise balconies, open spaces, and residential windows.",
     image: "/images/pigeon_nets.png",
-    altText: "Pigeon safety net installation on high-rise balcony in Chennai",
+    altText: "Pigeon safety net installation on high-rise balcony",
     spec: "Garware UV Stabilized Nylon",
   },
   {
@@ -71,8 +99,17 @@ export const SERVICES: ServiceData[] = [
     category: "Invisible Grills",
     description: "Ultra-thin 316 marine-grade stainless steel wire grills offering 100% view clarity and high-tensile security.",
     image: "/images/invisible_grills.png",
-    altText: "316 stainless steel invisible grill installation on balcony window in Chennai",
+    altText: "316 stainless steel invisible grill installation on balcony window",
     spec: "316 Marine Grade SS Wire",
+  },
+  {
+    slug: "bird-nets",
+    title: "Bird Safety Nets & Pigeon Deterrents",
+    category: "Bird Nets",
+    description: "High-density UV stabilized bird netting for apartment balconies, factory roofs, and open ducts.",
+    image: "/images/pigeon_nets.png",
+    altText: "Bird net installation on balcony",
+    spec: "High Density UV Copolymer",
   },
   {
     slug: "cloth-hangers",
@@ -80,7 +117,7 @@ export const SERVICES: ServiceData[] = [
     category: "Cloth Hangers",
     description: "Space-saving pulley-operated ceiling pull-down stainless steel cloth drying racks for apartment balconies.",
     image: "/images/about_installation.png",
-    altText: "Ceiling cloth hanger installation on apartment balcony in Chennai",
+    altText: "Ceiling cloth hanger installation on apartment balcony",
     spec: "Stainless Steel 304 Pipes",
   },
   {
@@ -89,7 +126,7 @@ export const SERVICES: ServiceData[] = [
     category: "Mosquito Mesh",
     description: "Sliding, velcro, and magnetic mosquito mesh screens in SS 304 and high-visibility fiberglass.",
     image: "/images/balcony_safety.png",
-    altText: "Mosquito mesh window screen installation in Chennai",
+    altText: "Mosquito mesh window screen installation",
     spec: "SS 304 & Fiberglass Netting",
   },
   {
@@ -98,7 +135,7 @@ export const SERVICES: ServiceData[] = [
     category: "Pigeon Spikes",
     description: "Polycarbonate base stainless steel bird spikes for parapet walls, AC outdoor units, and window ledges.",
     image: "/images/duct_area_nets.png",
-    altText: "Anti-pigeon bird deterrent spikes on AC ledge in Chennai",
+    altText: "Anti-pigeon bird deterrent spikes on AC ledge",
     spec: "Polycarbonate Base + SS Spikes",
   },
 ];
@@ -117,7 +154,7 @@ export function getAreaBySlug(citySlug: string, areaSlug: string): AreaData | un
   return city?.areas.find((a) => a.slug.toLowerCase() === areaSlug.toLowerCase());
 }
 
-export function generateLocalFaqs(serviceTitle: string, areaName: string, cityName: string = "Chennai") {
+export function generateLocalFaqs(serviceTitle: string, areaName: string, cityName: string) {
   return [
     {
       q: `How much does ${serviceTitle.toLowerCase()} cost per sqft in ${areaName}, ${cityName}?`,
@@ -146,14 +183,14 @@ export function generateLocalReviews(serviceTitle: string, areaName: string) {
   return [
     {
       name: "Ramesh Chandran",
-      locality: `${areaName}, Chennai`,
+      locality: `${areaName}`,
       rating: 5,
       text: `Golden Enterprises installed ${serviceTitle.toLowerCase()} on our balcony in ${areaName}. Neat craftsmanship, very punctual technicians, and reasonable pricing!`,
       date: "1 week ago",
     },
     {
       name: "Sowmya N.",
-      locality: `${areaName}, Chennai`,
+      locality: `${areaName}`,
       rating: 5,
       text: `Very reliable service! My balcony in ${areaName} is now completely safe for my kids and protected from pigeons. Highly recommended!`,
       date: "3 weeks ago",
