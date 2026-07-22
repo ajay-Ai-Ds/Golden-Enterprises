@@ -70,8 +70,8 @@ export default function HeroCanvas() {
 
         <CameraRig setScrollProgress={setScrollProgress} />
 
-        {/* GPU-Instanced Continuous Swarm of 10,000 Flying Pigeons */}
-        <BirdFlock count={10000} />
+        {/* Optimized 60 FPS Flocking Pigeons (180 White & Red Pigeons) */}
+        <BirdFlock count={180} />
 
         {/* Sparse Invisible Wire Mesh Plane */}
         <InvisibleMesh scrollProgress={scrollProgress} />
