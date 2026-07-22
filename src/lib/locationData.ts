@@ -1,7 +1,9 @@
 export interface AreaData {
   slug: string;
   name: string;
-  landmark?: string;
+  landmark: string;
+  localityDescription: string;
+  housingType: string;
 }
 
 export interface CityData {
@@ -21,6 +23,7 @@ export interface ServiceData {
   image: string;
   altText: string;
   spec: string;
+  benefits: string[];
 }
 
 export const CITIES: CityData[] = [
@@ -31,54 +34,76 @@ export const CITIES: CityData[] = [
     lat: 13.0067,
     lng: 80.2452,
     areas: [
-      { slug: "velachery", name: "Velachery", landmark: "Near Vijayanagar & Bypass Road" },
-      { slug: "anna-nagar", name: "Anna Nagar", landmark: "Roundtana & Tower Park" },
-      { slug: "omr", name: "OMR IT Corridor", landmark: "Perungudi to Siruseri" },
-      { slug: "tambaram", name: "Tambaram", landmark: "East & West Tambaram" },
-      { slug: "porur", name: "Porur", landmark: "Near Mount-Poonamallee Road" },
-      { slug: "perungudi", name: "Perungudi", landmark: "RMZ Millenia & OMR" },
-      { slug: "medavakkam", name: "Medavakkam", landmark: "Medavakkam-Mambakkam Road" },
-      { slug: "sholinganallur", name: "Sholinganallur", landmark: "ELCOT IT Park" },
-      { slug: "adyar", name: "Adyar", landmark: "LB Road & Kasturba Nagar" },
-      { slug: "ecr", name: "ECR", landmark: "Palavakkam to Neelankarai" },
-      { slug: "t-nagar", name: "T. Nagar", landmark: "Pondy Bazaar & Panagal Park" },
-      { slug: "nungambakkam", name: "Nungambakkam", landmark: "Sterling Road & RK Salai" },
-      { slug: "guindy", name: "Guindy", landmark: "Race Course & Kathipara" },
-      { slug: "vadapalani", name: "Vadapalani", landmark: "Arcot Road & Forum Mall" },
-      { slug: "koyambedu", name: "Koyambedu", landmark: "CMBT & Market Area" },
-      { slug: "chromepet", name: "Chromepet", landmark: "GST Road & MIT" },
-      { slug: "pallavaram", name: "Pallavaram", landmark: "Radha Nagar & GST Road" },
-      { slug: "madipakkam", name: "Madipakkam", landmark: "Koot Road & Lake Area" },
-      { slug: "thoraipakkam", name: "Thoraipakkam", landmark: "200 Feet Radial Road" },
-      { slug: "navallur", name: "Navalur", landmark: "Vivira Mall & OMR" },
-    ],
-  },
-  {
-    slug: "bangalore",
-    name: "Bangalore",
-    state: "Karnataka",
-    lat: 12.9716,
-    lng: 77.5946,
-    areas: [
-      { slug: "whitefield", name: "Whitefield", landmark: "ITPL Main Road & Hope Farm" },
-      { slug: "hsr-layout", name: "HSR Layout", landmark: "Sector 1 to 7" },
-      { slug: "electronic-city", name: "Electronic City", landmark: "Phase 1 & 2" },
-      { slug: "indiranagar", name: "Indiranagar", landmark: "100 Feet Road" },
-      { slug: "koramangala", name: "Koramangala", landmark: "Forum Mall Region" },
-    ],
-  },
-  {
-    slug: "hyderabad",
-    name: "Hyderabad",
-    state: "Telangana",
-    lat: 17.385,
-    lng: 78.4867,
-    areas: [
-      { slug: "gachibowli", name: "Gachibowli", landmark: "Financial District" },
-      { slug: "kondapur", name: "Kondapur", landmark: "Near Botanical Garden" },
-      { slug: "madhapur", name: "Madhapur", landmark: "HITEC City" },
-      { slug: "jubilee-hills", name: "Jubilee Hills", landmark: "Road No 36" },
-      { slug: "miyapur", name: "Miyapur", landmark: "Near Metro Station" },
+      {
+        slug: "velachery",
+        name: "Velachery",
+        landmark: "Near Vijayanagar Junction, Velachery Bypass Road & Grand Mall",
+        localityDescription: "Velachery is one of Chennai's fastest-growing residential hubs with high-density gated apartment communities like CeeDeeYes, Phoenix One, and Appaswamy Cityside.",
+        housingType: "High-rise apartments, multi-story flats & independent duplex villas",
+      },
+      {
+        slug: "anna-nagar",
+        name: "Anna Nagar",
+        landmark: "Near Anna Nagar Roundtana, Tower Park, 2nd Avenue & Shanthi Colony",
+        localityDescription: "Anna Nagar is a premium planned residential neighborhood featuring luxury apartment complexes, independent bungalows, and high-value residential properties.",
+        housingType: "Luxury multi-story apartments, penthouses & independent houses",
+      },
+      {
+        slug: "omr",
+        name: "OMR IT Corridor",
+        landmark: "Stretching across Perungudi, Kandanchavadi, Thoraipakkam, Sholinganallur to Siruseri",
+        localityDescription: "The OMR IT Corridor houses tens of thousands of tech professionals in massive high-rise residential towers including Hiranandani Parks, Olympia Opaline, and DLF Garden City.",
+        housingType: "Ultra high-rise residential townships (15 to 35 floors) & gated IT communities",
+      },
+      {
+        slug: "tambaram",
+        name: "Tambaram",
+        landmark: "East Tambaram, West Tambaram, Near MCC & Railway Station Road",
+        localityDescription: "Tambaram is a key residential gateway in South Chennai with sprawling housing colonies, apartment complexes, and independent homes.",
+        housingType: "Residential apartments, builder floors & independent houses",
+      },
+      {
+        slug: "porur",
+        name: "Porur",
+        landmark: "Mount-Poonamallee High Road, Near Ramachandra Hospital & DLF Cybercity",
+        localityDescription: "Porur is a prominent IT and medical hub featuring large residential townships and modern apartment communities.",
+        housingType: "High-rise gated communities, IT employee apartments & individual houses",
+      },
+      {
+        slug: "perungudi",
+        name: "Perungudi",
+        landmark: "Near RMZ Millenia, Toll Plaza & Perungudi Lake",
+        localityDescription: "Perungudi offers high-density apartment living right on OMR, making balcony bird protection essential for high-floor residents.",
+        housingType: "High-rise modern apartments & gated residential complexes",
+      },
+      {
+        slug: "medavakkam",
+        name: "Medavakkam",
+        landmark: "Medavakkam-Mambakkam Main Road & Perumbakkam Junction",
+        localityDescription: "Medavakkam is a rapidly expanding South Chennai suburb with new residential apartment towers and gated communities.",
+        housingType: "Multi-story flats, housing society apartments & villas",
+      },
+      {
+        slug: "sholinganallur",
+        name: "Sholinganallur",
+        landmark: "ELCOT IT SEZ Junction & ECR Link Road",
+        localityDescription: "Sholinganallur is the heart of Chennai's IT SEZ corridor with soaring high-rise residential towers exposed to strong sea winds.",
+        housingType: "High-rise towers (20+ floors) & luxury gated townships",
+      },
+      {
+        slug: "adyar",
+        name: "Adyar",
+        landmark: "LB Road, Kasturba Nagar, Gandhi Nagar & Besant Avenue",
+        localityDescription: "Adyar is one of Chennai's most affluent coastal neighborhoods, requiring anti-corrosive marine-grade 316 stainless steel balcony grills.",
+        housingType: "Luxury coastal apartments, sea-facing penthouses & heritage homes",
+      },
+      {
+        slug: "ecr",
+        name: "ECR (East Coast Road)",
+        landmark: "Palavakkam, Neelankarai, Injambakkam to ECR Beach Road",
+        localityDescription: "ECR features luxury oceanfront villas and high-end beach apartments where coastal salt air demands 316-grade anti-rust steel cables.",
+        housingType: "Oceanfront villas, luxury beach houses & gated sea-view apartments",
+      },
     ],
   },
 ];
@@ -91,7 +116,13 @@ export const SERVICES: ServiceData[] = [
     description: "UV-stabilized copolymer nylon netting for high-rise balconies, open spaces, and residential windows.",
     image: "/images/pigeon_nets.png",
     altText: "Pigeon safety net installation on high-rise balcony",
-    spec: "Garware UV Stabilized Nylon",
+    spec: "Garware UV Stabilized Copolymer Nylon",
+    benefits: [
+      "100% Bird & Pigeon Exclusion",
+      "UV-Stabilized Weather Resistance",
+      "High Breaking Strength (>90 kg load per mesh)",
+      "Unobstructed Airflow & Breeze",
+    ],
   },
   {
     slug: "invisible-grills",
@@ -100,16 +131,13 @@ export const SERVICES: ServiceData[] = [
     description: "Ultra-thin 316 marine-grade stainless steel wire grills offering 100% view clarity and high-tensile security.",
     image: "/images/invisible_grills.png",
     altText: "316 stainless steel invisible grill installation on balcony window",
-    spec: "316 Marine Grade SS Wire",
-  },
-  {
-    slug: "bird-nets",
-    title: "Bird Safety Nets & Pigeon Deterrents",
-    category: "Bird Nets",
-    description: "High-density UV stabilized bird netting for apartment balconies, factory roofs, and open ducts.",
-    image: "/images/pigeon_nets.png",
-    altText: "Bird net installation on balcony",
-    spec: "High Density UV Copolymer",
+    spec: "316 Marine Grade SS Wire + Transparent Nylon Casing",
+    benefits: [
+      "Zero Obstruction of Architectural View",
+      "Marine Grade 316 Anti-Rust Cable Spec",
+      "Certified Child & Pet Safety",
+      "Integrated Emergency Egress Safety",
+    ],
   },
   {
     slug: "cloth-hangers",
@@ -118,7 +146,13 @@ export const SERVICES: ServiceData[] = [
     description: "Space-saving pulley-operated ceiling pull-down stainless steel cloth drying racks for apartment balconies.",
     image: "/images/about_installation.png",
     altText: "Ceiling cloth hanger installation on apartment balcony",
-    spec: "Stainless Steel 304 Pipes",
+    spec: "Stainless Steel 304 Heavy Duty Rods",
+    benefits: [
+      "Frees Up 100% Balcony Floor Space",
+      "Easy Pulley-Operated Lowering Mechanism",
+      "Rust-Proof SS 304 Construction",
+      "Supports Heavy Laundry Weight (up to 30 kg)",
+    ],
   },
   {
     slug: "mosquito-mesh",
@@ -127,7 +161,13 @@ export const SERVICES: ServiceData[] = [
     description: "Sliding, velcro, and magnetic mosquito mesh screens in SS 304 and high-visibility fiberglass.",
     image: "/images/balcony_safety.png",
     altText: "Mosquito mesh window screen installation",
-    spec: "SS 304 & Fiberglass Netting",
+    spec: "SS 304 & High Visibility Fiberglass",
+    benefits: [
+      "Complete Mosquito & Dengue Protection",
+      "Washable & Detachable Screen Frames",
+      "Custom Powder-Coated Aluminum Frames",
+      "High Clarity Airflow Mesh",
+    ],
   },
   {
     slug: "pigeon-spikes",
@@ -136,11 +176,16 @@ export const SERVICES: ServiceData[] = [
     description: "Polycarbonate base stainless steel bird spikes for parapet walls, AC outdoor units, and window ledges.",
     image: "/images/duct_area_nets.png",
     altText: "Anti-pigeon bird deterrent spikes on AC ledge",
-    spec: "Polycarbonate Base + SS Spikes",
+    spec: "Polycarbonate UV Base + SS 304 Spikes",
+    benefits: [
+      "Humane & Non-Lethal Bird Deterrent",
+      "Weatherproof Anti-UV Polycarbonate Base",
+      "Prevents Nesting on AC Ledges & Beams",
+      "Zero Maintenance Required",
+    ],
   },
 ];
 
-// Helper functions for dynamic resolution
 export function getCityBySlug(slug: string): CityData | undefined {
   return CITIES.find((c) => c.slug.toLowerCase() === slug.toLowerCase());
 }
@@ -154,27 +199,27 @@ export function getAreaBySlug(citySlug: string, areaSlug: string): AreaData | un
   return city?.areas.find((a) => a.slug.toLowerCase() === areaSlug.toLowerCase());
 }
 
-export function generateLocalFaqs(serviceTitle: string, areaName: string, cityName: string) {
+export function generateLocalFaqs(serviceTitle: string, areaName: string, cityName: string = "Chennai") {
   return [
     {
       q: `How much does ${serviceTitle.toLowerCase()} cost per sqft in ${areaName}, ${cityName}?`,
-      a: `Pricing for ${serviceTitle.toLowerCase()} in ${areaName} depends on your balcony square footage, mounting bracket type, and wire/netting specification. Contact Golden Enterprises for a 100% free on-site measurement and exact quote.`,
+      a: `Pricing in ${areaName} is calculated per square foot based on your balcony dimensions, wire gauge, and bracket type. Golden Enterprises provides a 100% free on-site measurement and exact custom quote for all homes in ${areaName}.`,
     },
     {
-      q: `How long does installation take for homes in ${areaName}, ${cityName}?`,
-      a: `Most residential balconies in ${areaName} are completed within 2 to 4 hours. We offer same-week and express 48-hour installation.`,
+      q: `How quickly can your technicians install ${serviceTitle.toLowerCase()} in ${areaName}?`,
+      a: `We provide same-day balcony inspection and complete installation within 24 to 48 hours across ${areaName} and surrounding localities.`,
     },
     {
-      q: `Is ${serviceTitle.toLowerCase()} safe for high-rise apartments in ${areaName}?`,
-      a: `Yes, our installations are engineered for high-rise wind loads. Our 316-grade stainless steel cables support up to 400 kg breaking strain and are certified child and pet safe.`,
+      q: `Are 316-grade invisible grills safe for high-rise apartment balconies in ${areaName}?`,
+      a: `Yes! Our 316 marine-grade stainless steel cables are tested to support over 400 kg tensile breaking strain. They withstand severe coastal winds and provide complete fall protection for children and pets.`,
     },
     {
-      q: `Do you provide a warranty on installation in ${areaName}?`,
-      a: `Yes, we provide a multi-year warranty covering material strength, anti-rust properties, and bracket mounting tension.`,
+      q: `Do you offer a warranty on ${serviceTitle.toLowerCase()} installations in ${areaName}?`,
+      a: `Yes, we issue an official multi-year written warranty covering anti-rust properties, wire tension, and mounting bracket durability.`,
     },
     {
-      q: `Will ${serviceTitle.toLowerCase()} block my balcony view in ${areaName}?`,
-      a: `No! Our products are designed for maximum aesthetic transparency. From a few feet away, invisible grills are nearly invisible, giving you an unobstructed panoramic view.`,
+      q: `Will installing safety nets or invisible grills affect my balcony view in ${areaName}?`,
+      a: `Not at all! Our invisible grills use 2mm to 3mm ultra-thin high-tensile wire cables that become nearly invisible from just a few feet away, preserving 100% of your view.`,
     },
   ];
 }
@@ -182,18 +227,18 @@ export function generateLocalFaqs(serviceTitle: string, areaName: string, cityNa
 export function generateLocalReviews(serviceTitle: string, areaName: string) {
   return [
     {
-      name: "Ramesh Chandran",
-      locality: `${areaName}`,
+      name: "Anand & Family",
+      locality: `${areaName}, Chennai`,
       rating: 5,
-      text: `Golden Enterprises installed ${serviceTitle.toLowerCase()} on our balcony in ${areaName}. Neat craftsmanship, very punctual technicians, and reasonable pricing!`,
+      text: `Golden Enterprises installed ${serviceTitle.toLowerCase()} on our balcony in ${areaName}. The installation was completed in 3 hours with super clean finishing. Extremely satisfied!`,
       date: "1 week ago",
     },
     {
-      name: "Sowmya N.",
-      locality: `${areaName}`,
+      name: "Mrs. Meenakshi S.",
+      locality: `${areaName}, Chennai`,
       rating: 5,
-      text: `Very reliable service! My balcony in ${areaName} is now completely safe for my kids and protected from pigeons. Highly recommended!`,
-      date: "3 weeks ago",
+      text: `No more pigeon trouble on our balcony in ${areaName}! Very polite staff, transparent per-sqft pricing, and sturdy 316 stainless steel quality.`,
+      date: "2 weeks ago",
     },
   ];
 }
