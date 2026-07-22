@@ -9,7 +9,7 @@ export default function About() {
   const [imageError, setImageError] = useState(false);
 
   return (
-    <section id="about" className="relative py-24 bg-[#0A1218] overflow-hidden">
+    <section id="about" className="relative py-24 bg-[#0A1218] overflow-hidden w-full max-w-full">
       {/* Background Grill Pattern Accent */}
       <div className="absolute inset-0 bg-wire-lattice opacity-15 pointer-events-none" />
 
@@ -18,16 +18,16 @@ export default function About() {
           
           {/* Left Column: Installation Photo Showcase */}
           <motion.div
-            initial={{ opacity: 0, x: -40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.8 }}
-            className="relative"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.6 }}
+            className="relative w-full max-w-full"
           >
             {/* Outer Cyan Glow Ring */}
             <div className="absolute -inset-2 rounded-3xl bg-gradient-to-r from-[#2E86FF]/30 to-[#F2A93B]/20 blur-xl opacity-60 pointer-events-none" />
             
-            <div className="relative rounded-2xl overflow-hidden border border-[#C7CDD3]/30 bg-[#0D1821] shadow-2xl group">
+            <div className="relative rounded-2xl overflow-hidden border border-[#C7CDD3]/30 bg-[#0D1821] shadow-2xl group w-full">
               {!imageError ? (
                 <div className="relative h-[380px] sm:h-[450px] w-full overflow-hidden">
                   <Image
@@ -41,7 +41,6 @@ export default function About() {
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0A1218] via-transparent to-transparent opacity-80" />
                 </div>
               ) : (
-                /* Fallback if image fails to load */
                 <div className="h-[380px] sm:h-[450px] w-full flex flex-col items-center justify-center p-8 bg-[#0D1821] text-center border border-white/10">
                   <Building2 className="w-16 h-16 text-[#2E86FF] mb-4" />
                   <h3 className="text-xl font-bold text-white mb-2">Golden Enterprises Installation</h3>
@@ -69,11 +68,11 @@ export default function About() {
 
           {/* Right Column: Company Story Copy & Animated Counters */}
           <motion.div
-            initial={{ opacity: 0, x: 40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.8 }}
-            className="flex flex-col"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.6 }}
+            className="flex flex-col w-full max-w-full"
           >
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#2E86FF]/10 border border-[#2E86FF]/30 w-fit mb-4">
               <Award className="w-4 h-4 text-[#2E86FF]" />
@@ -109,13 +108,13 @@ export default function About() {
               ))}
             </div>
 
-            {/* Animated Count-up Metrics (Fires ONCE on scroll into view) */}
+            {/* Animated Count-up Metrics */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-6 border-t border-white/10">
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 15 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.1 }}
+                transition={{ duration: 0.4, delay: 0.1 }}
                 className="flex flex-col"
               >
                 <span className="text-2xl sm:text-3xl font-extrabold text-white font-mono">10+ Yrs</span>
@@ -123,10 +122,10 @@ export default function About() {
               </motion.div>
 
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 15 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.2 }}
+                transition={{ duration: 0.4, delay: 0.2 }}
                 className="flex flex-col"
               >
                 <span className="text-2xl sm:text-3xl font-extrabold text-[#2E86FF] font-mono">5,000+</span>
@@ -134,10 +133,10 @@ export default function About() {
               </motion.div>
 
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 15 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.3 }}
+                transition={{ duration: 0.4, delay: 0.3 }}
                 className="flex flex-col"
               >
                 <span className="text-2xl sm:text-3xl font-extrabold text-white font-mono">316 Grade</span>
@@ -145,10 +144,10 @@ export default function About() {
               </motion.div>
 
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 15 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.4 }}
+                transition={{ duration: 0.4, delay: 0.4 }}
                 className="flex flex-col"
               >
                 <span className="text-2xl sm:text-3xl font-extrabold text-[#F2A93B] font-mono">100%</span>

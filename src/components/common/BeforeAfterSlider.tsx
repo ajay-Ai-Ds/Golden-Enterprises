@@ -50,10 +50,10 @@ export default function BeforeAfterSlider({
       onMouseLeave={() => setIsDragging(false)}
       onMouseMove={handleMouseMove}
       onTouchMove={handleTouchMove}
-      className="relative w-full h-[320px] sm:h-[420px] rounded-2xl overflow-hidden select-none border border-[#C7CDD3]/30 shadow-2xl cursor-ew-resize bg-[#0A1218]"
+      className="relative w-full max-w-full h-[320px] sm:h-[420px] rounded-2xl overflow-hidden select-none border border-[#C7CDD3]/30 shadow-2xl cursor-ew-resize bg-[#0A1218]"
     >
       {/* After Image (Full width background) */}
-      <div className="absolute inset-0 w-full h-full">
+      <div className="absolute inset-0 w-full h-full overflow-hidden">
         <Image
           src={afterImage}
           alt={`After ${locationTag}`}
@@ -71,7 +71,7 @@ export default function BeforeAfterSlider({
         className="absolute top-0 bottom-0 left-0 overflow-hidden border-r-2 border-white shadow-[0_0_15px_rgba(255,255,255,0.8)]"
         style={{ width: `${sliderPosition}%` }}
       >
-        <div className="relative w-full h-full min-w-[300px] sm:min-w-[600px]">
+        <div className="relative w-full h-full overflow-hidden">
           <Image
             src={beforeImage}
             alt={`Before ${locationTag}`}
@@ -79,7 +79,6 @@ export default function BeforeAfterSlider({
             className="object-cover filter contrast-125 brightness-90"
             sizes="(max-width: 768px) 100vw, 50vw"
           />
-          {/* Simulated Pigeon Mess Overlay filter */}
           <div className="absolute inset-0 bg-[#F2A93B]/10 mix-blend-overlay" />
           <div className="absolute top-4 left-4 px-3 py-1 rounded-full bg-[#0A1218]/90 text-[#F2A93B] text-xs font-bold uppercase tracking-wider border border-[#F2A93B]/40 backdrop-blur-md shadow-lg">
             {beforeLabel}
@@ -99,8 +98,8 @@ export default function BeforeAfterSlider({
 
       {/* Location Badge */}
       <div className="absolute bottom-4 left-4 right-4 px-4 py-2 rounded-xl glass-header border border-white/10 text-xs font-semibold text-[#C7CDD3] flex items-center justify-between pointer-events-none">
-        <span>{locationTag}</span>
-        <span className="text-[10px] text-[#2E86FF] uppercase font-mono">Drag slider</span>
+        <span className="truncate max-w-[200px] sm:max-w-none">{locationTag}</span>
+        <span className="text-[10px] text-[#2E86FF] uppercase font-mono shrink-0 ml-2">Drag slider</span>
       </div>
     </div>
   );
