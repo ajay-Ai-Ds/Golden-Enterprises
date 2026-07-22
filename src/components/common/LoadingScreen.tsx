@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function LoadingScreen({
@@ -11,38 +11,53 @@ export default function LoadingScreen({
   const [progress, setProgress] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
   const [shouldRender, setShouldRender] = useState(true);
+  const onCompleteRef = useRef(onComplete);
 
   useEffect(() => {
-    // Check if session already visited
-    if (typeof window !== "undefined") {
-      const visited = sessionStorage.getItem("ge_visited_session");
-      if (visited) {
-        setShouldRender(false);
-        if (onComplete) onComplete();
-        return;
+    onCompleteRef.current = onComplete;
+  }, [onComplete]);
+
+  useEffect(() => {
+    // Check if session already visited with safety try-catch
+    try {
+      if (typeof window !== "undefined") {
+        const visited = sessionStorage.getItem("ge_visited_session");
+        if (visited) {
+          setShouldRender(false);
+          if (onCompleteRef.current) onCompleteRef.current();
+          return;
+        }
       }
+    } catch {
+      // Storage access blocked or restricted, continue showing loader smoothly
     }
 
-    // Progress simulation line by line fill
+    let currentProgress = 0;
     const interval = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= 100) {
-          clearInterval(interval);
-          setTimeout(() => {
-            setIsLoaded(true);
+      currentProgress += Math.floor(Math.random() * 12) + 8;
+      if (currentProgress >= 100) {
+        currentProgress = 100;
+        setProgress(100);
+        clearInterval(interval);
+
+        setTimeout(() => {
+          setIsLoaded(true);
+          try {
             if (typeof window !== "undefined") {
               sessionStorage.setItem("ge_visited_session", "true");
             }
-            if (onComplete) onComplete();
-          }, 800);
-          return 100;
-        }
-        return prev + Math.floor(Math.random() * 8) + 4;
-      });
-    }, 60);
+          } catch {
+            // Storage access blocked
+          }
+          if (onCompleteRef.current) onCompleteRef.current();
+        }, 600);
+      } else {
+        setProgress(currentProgress);
+      }
+    }, 50);
 
     return () => clearInterval(interval);
-  }, [onComplete]);
+  }, []);
 
   if (!shouldRender) return null;
 
@@ -131,7 +146,7 @@ export default function LoadingScreen({
             {/* Subtitle "CHENNAI" settling beneath */}
             <motion.p
               initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: progress > 50 ? 1 : 0, y: progress > 50 ? 0 : 10 }}
+              animate={{ opacity: progress > 40 ? 1 : 0, y: progress > 40 ? 0 : 10 }}
               transition={{ duration: 0.5 }}
               className="text-xs md:text-sm tracking-[0.4em] text-[#C7CDD3] uppercase font-medium mb-8"
             >

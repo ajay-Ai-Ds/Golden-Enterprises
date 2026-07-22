@@ -23,12 +23,24 @@ export function usePerformanceTier(): PerformanceTier {
       const isLowCores =
         typeof navigator !== "undefined" &&
         navigator.hardwareConcurrency !== undefined &&
-        navigator.hardwareConcurrency <= 4;
+        navigator.hardwareConcurrency <= 2; // Only flag extreme low-spec (<= 2 cores)
       const prefersReducedMotion =
         typeof window !== "undefined" &&
         window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-      const isLow = isSmallScreen || isLowCores || prefersReducedMotion;
+      const hasWebGL = (() => {
+        try {
+          const canvas = document.createElement("canvas");
+          return !!(
+            window.WebGLRenderingContext &&
+            (canvas.getContext("webgl") || canvas.getContext("experimental-webgl"))
+          );
+        } catch {
+          return false;
+        }
+      })();
+
+      const isLow = (isSmallScreen || isLowCores || prefersReducedMotion) && !hasWebGL;
 
       setTier({
         isLowPerformance: isLow,

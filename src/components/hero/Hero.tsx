@@ -1,23 +1,34 @@
 "use client";
 
+import { useState, useEffect } from "react";
+import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
 import { ShieldCheck, ArrowRight, Sparkles } from "lucide-react";
 import { usePerformanceTier } from "@/hooks/usePerformanceTier";
-import HeroCanvas from "./HeroCanvas";
-import HeroFallback from "./HeroFallback";
 import GlowButton from "../ui/GlowButton";
+import HeroFallback from "./HeroFallback";
+
+// Dynamically import 3D Canvas component to prevent SSR hydration mismatches
+const HeroCanvas = dynamic(() => import("./HeroCanvas"), {
+  ssr: false,
+  loading: () => <HeroFallback />,
+});
 
 export default function Hero() {
   const { isLowPerformance } = usePerformanceTier();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <section
-      id="home"
-      id-section="hero-section"
+      id="hero-section"
       className="relative min-h-screen w-full flex items-center justify-center pt-24 pb-16 overflow-hidden bg-[#0A1218]"
     >
-      {/* Performance Branch: R3F 3D Scene vs Mobile/Low-Spec CSS Parallax */}
-      {isLowPerformance ? <HeroFallback /> : <HeroCanvas />}
+      {/* 3D R3F Dusk Scene vs Low-Spec Parallax */}
+      {mounted && !isLowPerformance ? <HeroCanvas /> : <HeroFallback />}
 
       {/* Hero Content Overlay */}
       <div className="relative z-20 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center">
@@ -30,7 +41,7 @@ export default function Hero() {
         >
           <Sparkles className="w-4 h-4 text-[#F2A93B]" />
           <span className="text-xs md:text-sm font-semibold tracking-wider text-[#C7CDD3] uppercase">
-            Chennai's Premium Pigeon Nets & Invisible Grills
+            Chennai&apos;s Premium Pigeon Nets & Invisible Grills
           </span>
         </motion.div>
 
