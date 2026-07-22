@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { Volume2, VolumeX, Sparkles, Wind, Music } from "lucide-react";
+import { VolumeX, Wind, Music } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function AudioManager() {
@@ -27,12 +27,11 @@ export default function AudioManager() {
     }
   };
 
-  // Synthesize Coastal Sky Breeze Background Loop (Low-pass Pink Noise)
+  // Synthesize Coastal Sky Breeze Background Loop
   const startCoastalBreezeTrack = () => {
     if (!audioCtxRef.current) return;
     const ctx = audioCtxRef.current;
 
-    // Stop previous instance if any
     if (breezeSourceRef.current) {
       try { breezeSourceRef.current.stop(); } catch {}
     }
@@ -41,7 +40,6 @@ export default function AudioManager() {
     const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
     const data = buffer.getChannelData(0);
 
-    // Pink noise generation algorithm for realistic wind breeze
     let b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0;
     for (let i = 0; i < bufferSize; i++) {
       const white = Math.random() * 2 - 1;
@@ -60,12 +58,10 @@ export default function AudioManager() {
     noiseSource.buffer = buffer;
     noiseSource.loop = true;
 
-    // Low-pass filter for smooth coastal sky breeze
     const filter = ctx.createBiquadFilter();
     filter.type = "lowpass";
     filter.frequency.setValueAtTime(320, ctx.currentTime);
 
-    // Gain node for breeze volume control
     const breezeGain = ctx.createGain();
     breezeGain.gain.setValueAtTime(0.04, ctx.currentTime);
 
@@ -77,7 +73,6 @@ export default function AudioManager() {
     breezeSourceRef.current = noiseSource;
     breezeGainRef.current = breezeGain;
 
-    // Start subtle morning bird chirps loop
     scheduleMorningBirdChirps();
   };
 
@@ -96,7 +91,7 @@ export default function AudioManager() {
     }
   };
 
-  // Synthesize delicate distant bird chirps (peaceful morning balcony view)
+  // Synthesize delicate distant bird chirps
   const playDistantBirdChirp = () => {
     if (!audioCtxRef.current || isMuted) return;
     try {
@@ -123,7 +118,7 @@ export default function AudioManager() {
 
   const scheduleMorningBirdChirps = () => {
     if (isMuted) return;
-    const nextInterval = 4000 + Math.random() * 6000; // Chirp every 4-10 seconds
+    const nextInterval = 4000 + Math.random() * 6000;
     birdTimerRef.current = setTimeout(() => {
       playDistantBirdChirp();
       scheduleMorningBirdChirps();
@@ -166,7 +161,6 @@ export default function AudioManager() {
     }
   };
 
-  // Global button click SFX trigger
   useEffect(() => {
     const handleGlobalClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
@@ -180,7 +174,8 @@ export default function AudioManager() {
   }, [isMuted]);
 
   return (
-    <div className="fixed bottom-24 right-6 z-50 select-none">
+    /* Clean Bottom-Left Positioning (Zero overlap with bottom-right Call/WhatsApp buttons) */
+    <div className="fixed bottom-6 left-6 z-50 select-none flex flex-col items-start">
       <AnimatePresence>
         {!hasInteracted && isMuted && (
           <motion.div
@@ -192,7 +187,7 @@ export default function AudioManager() {
             <Wind className="w-4 h-4 text-[#2E86FF] animate-pulse" />
             <div>
               <span className="block font-bold">Play Coastal Sky Track</span>
-              <span className="text-[10px] text-[#9AA5AD]">Chennai Balcony Breeze & Sky Ambiance</span>
+              <span className="text-[10px] text-[#9AA5AD]">Chennai Balcony Atmosphere</span>
             </div>
           </motion.div>
         )}
@@ -203,17 +198,17 @@ export default function AudioManager() {
         whileHover={{ scale: 1.08 }}
         whileTap={{ scale: 0.95 }}
         onClick={toggleSound}
-        aria-label={isMuted ? "Play Chennai Coastal Balcony Track" : "Mute Audio Track"}
-        className={`w-13 h-13 rounded-full flex items-center justify-center border backdrop-blur-2xl shadow-2xl transition-all duration-300 ${
+        aria-label={isMuted ? "Play Coastal Sky Track" : "Mute Audio Track"}
+        className={`w-12 h-12 rounded-full flex items-center justify-center border backdrop-blur-2xl shadow-2xl transition-all duration-300 ${
           !isMuted
             ? "bg-[#2E86FF] text-white border-white/30 shadow-[0_0_25px_rgba(46,134,255,0.7)]"
             : "bg-[#0D1821]/90 text-[#9AA5AD] border-white/10 hover:text-white hover:border-[#2E86FF]"
         }`}
       >
         {!isMuted ? (
-          <Music className="w-6 h-6 animate-spin-slow text-white" />
+          <Music className="w-5 h-5 text-white" />
         ) : (
-          <VolumeX className="w-6 h-6" />
+          <VolumeX className="w-5 h-5" />
         )}
       </motion.button>
     </div>
