@@ -4,6 +4,7 @@ import "./globals.css";
 import SmoothScroll from "@/components/common/SmoothScroll";
 import LoadingScreen from "@/components/common/LoadingScreen";
 import FloatingCTA from "@/components/common/FloatingCTA";
+import AudioManager from "@/components/common/AudioManager";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -107,6 +108,7 @@ export default function RootLayout({
         <LoadingScreen />
         <SmoothScroll>{children}</SmoothScroll>
         <FloatingCTA />
+        <AudioManager />
       </body>
     </html>
   );
