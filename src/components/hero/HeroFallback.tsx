@@ -54,7 +54,7 @@ export default function HeroFallback() {
 
       {/* Flock of White & Red Flying Pigeons across Sky & Header */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {[...Array(40)].map((_, i) => {
+        {[...Array(12)].map((_, i) => {
           const isRed = i % 3 === 0;
           return (
             <motion.div

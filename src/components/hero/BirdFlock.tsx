@@ -8,23 +8,23 @@ interface BirdFlockProps {
   count?: number;
 }
 
-export default function BirdFlock({ count = 180 }: BirdFlockProps) {
+export default function BirdFlock({ count = 24 }: BirdFlockProps) {
   const meshRef = useRef<THREE.InstancedMesh>(null);
 
-  // Pre-allocated typed array for high-performance 60 FPS flight (180 pigeons max)
+  // Pre-allocated typed array for elegant, ultra-fast 60 FPS flight (24 pigeons)
   const { flockData, colorArray } = useMemo(() => {
     const data = new Float32Array(count * 8);
     const colors = new Float32Array(count * 3);
 
     for (let i = 0; i < count; i++) {
       const idx = i * 8;
-      data[idx + 0] = (Math.random() - 0.5) * 36; // Horizontal spread
-      data[idx + 1] = (Math.random() - 0.5) * 16 + 2; // Vertical height spread
-      data[idx + 2] = -45 + Math.random() * 50; // Depth range
-      data[idx + 3] = 0.06 + Math.random() * 0.05; // Speed
+      data[idx + 0] = (Math.random() - 0.5) * 24; // Horizontal spread
+      data[idx + 1] = (Math.random() - 0.5) * 12 + 2; // Vertical height spread
+      data[idx + 2] = -35 + Math.random() * 40; // Depth range
+      data[idx + 3] = 0.07 + Math.random() * 0.05; // Speed
       data[idx + 4] = 10 + Math.random() * 6; // Wing flap frequency
       data[idx + 5] = Math.random() * Math.PI * 2; // Phase
-      data[idx + 6] = 0.35 + Math.random() * 0.3; // Scale
+      data[idx + 6] = 0.4 + Math.random() * 0.3; // Scale
       data[idx + 7] = Math.random() > 0.5 ? 1 : -1; // Arc direction
 
       // 70% Pure White (#FFFFFF), 30% Red (#FF3B30)
@@ -80,7 +80,7 @@ export default function BirdFlock({ count = 180 }: BirdFlockProps) {
       const arcDir = flockData[idx + 7];
 
       // Smooth loop flight
-      const currentZ = ((originZ + time * speed * 20 + phase * 6) % 50) - 45;
+      const currentZ = ((originZ + time * speed * 20 + phase * 6) % 45) - 35;
 
       let currentX = originX;
       let currentY = originY;
