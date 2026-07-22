@@ -8,42 +8,40 @@ interface BirdFlockProps {
   count?: number;
 }
 
-export default function BirdFlock({ count = 120 }: BirdFlockProps) {
+export default function BirdFlock({ count = 10000 }: BirdFlockProps) {
   const meshRef = useRef<THREE.InstancedMesh>(null);
 
-  // Generate 100+ pigeons spread across the sky & header area
-  const birdData = useMemo(() => {
-    const data = [];
+  // Pre-allocated typed arrays for 10,000 flying pigeons to maintain 60 FPS
+  const flockData = useMemo(() => {
+    const data = new Float32Array(count * 8); // x, y, z, speed, wingSpeed, phase, scale, arcDir
     for (let i = 0; i < count; i++) {
-      data.push({
-        x: (Math.random() - 0.5) * 28, // Wide horizontal spread
-        y: Math.random() * 10 - 1,     // Height spread up to header top zone
-        z: -30 - Math.random() * 25,   // Depth layering
-        speed: 0.06 + Math.random() * 0.05,
-        wingSpeed: 12 + Math.random() * 8,
-        arcDirection: Math.random() > 0.5 ? 1 : -1,
-        phaseOffset: Math.random() * Math.PI * 2,
-        scale: 0.35 + Math.random() * 0.35,
-      });
+      const idx = i * 8;
+      data[idx + 0] = (Math.random() - 0.5) * 45; // Wide horizontal spread (-22.5 to 22.5)
+      data[idx + 1] = (Math.random() - 0.5) * 20 + 2; // Vertical height spread
+      data[idx + 2] = -60 + Math.random() * 65; // Layered depth from -60 to +5
+      data[idx + 3] = 0.08 + Math.random() * 0.08; // Flight speed
+      data[idx + 4] = 12 + Math.random() * 10; // Wing flap frequency
+      data[idx + 5] = Math.random() * Math.PI * 2; // Phase offset
+      data[idx + 6] = 0.15 + Math.random() * 0.25; // Scale
+      data[idx + 7] = Math.random() > 0.5 ? 1 : -1; // Arc direction
     }
     return data;
   }, [count]);
 
-  // Pigeon silhouette geometry (aerodynamic body + winged V-shape)
+  // Lightweight 6-vertex low-poly pigeon geometry for GPU instancing
   const pigeonGeometry = useMemo(() => {
     const shape = new THREE.Shape();
-    // Body & Wings
-    shape.moveTo(0, 0.4);
-    shape.lineTo(-0.3, 0.1);
-    shape.lineTo(-1.2, 0.5); // Left wing tip
-    shape.lineTo(-0.4, -0.2);
-    shape.lineTo(0, -0.5);   // Tail
-    shape.lineTo(0.4, -0.2);
-    shape.lineTo(1.2, 0.5);  // Right wing tip
-    shape.lineTo(0.3, 0.1);
+    shape.moveTo(0, 0.3);
+    shape.lineTo(-0.25, 0.05);
+    shape.lineTo(-0.9, 0.35); // Left wing tip
+    shape.lineTo(-0.3, -0.15);
+    shape.lineTo(0, -0.4); // Tail
+    shape.lineTo(0.3, -0.15);
+    shape.lineTo(0.9, 0.35); // Right wing tip
+    shape.lineTo(0.25, 0.05);
     shape.closePath();
 
-    const extrudeSettings = { depth: 0.03, bevelEnabled: false };
+    const extrudeSettings = { depth: 0.02, bevelEnabled: false };
     return new THREE.ExtrudeGeometry(shape, extrudeSettings);
   }, []);
 
@@ -53,34 +51,45 @@ export default function BirdFlock({ count = 120 }: BirdFlockProps) {
     if (!meshRef.current) return;
     const time = clock.getElapsedTime();
 
-    birdData.forEach((bird, i) => {
-      // Z position travel loop
-      let zPos = bird.z + ((time * bird.speed * 20 + bird.phaseOffset * 6) % 40);
-      
-      let xPos = bird.x;
-      let yPos = bird.y;
+    for (let i = 0; i < count; i++) {
+      const idx = i * 8;
+      const originX = flockData[idx + 0];
+      const originY = flockData[idx + 1];
+      const originZ = flockData[idx + 2];
+      const speed = flockData[idx + 3];
+      const wingSpeed = flockData[idx + 4];
+      const phase = flockData[idx + 5];
+      const scale = flockData[idx + 6];
+      const arcDir = flockData[idx + 7];
 
-      // Smooth flocking curve as pigeons approach invisible mesh boundary at z = 0
-      if (zPos > -10) {
-        const proximity = Math.min(1, (zPos + 10) / 10);
-        xPos += Math.sin(time * 0.8 + bird.phaseOffset) * 3 * bird.arcDirection * proximity;
-        yPos += Math.cos(time * 0.6 + bird.phaseOffset) * 2 * proximity + proximity * 1.5;
+      // Infinite continuous flight loop along Z depth
+      const zRange = 65;
+      let currentZ = ((originZ + time * speed * 25 + phase * 10) % zRange) - 60;
+
+      let currentX = originX;
+      let currentY = originY;
+
+      // Smooth flocking curve when pigeons near the invisible wire mesh at Z = 0
+      if (currentZ > -12) {
+        const proximity = Math.min(1, (currentZ + 12) / 12);
+        currentX += Math.sin(time * 0.7 + phase) * 2.5 * arcDir * proximity;
+        currentY += Math.cos(time * 0.5 + phase) * 1.8 * proximity + proximity * 1.2;
       }
 
-      // Dynamic wing flapping movement
-      const wingPitch = Math.sin(time * bird.wingSpeed + bird.phaseOffset) * 0.3;
+      // Dynamic wing flapping
+      const wingFlap = Math.sin(time * wingSpeed + phase) * 0.35;
 
-      dummy.position.set(xPos, yPos, zPos);
+      dummy.position.set(currentX, currentY, currentZ);
       dummy.rotation.set(
-        -0.15 + Math.sin(time + bird.phaseOffset) * 0.08,
-        bird.arcDirection * 0.2 * Math.min(1, Math.max(0, (zPos + 6) / 6)),
-        wingPitch
+        -0.12 + Math.sin(time + phase) * 0.06,
+        arcDir * 0.15 * Math.min(1, Math.max(0, (currentZ + 8) / 8)),
+        wingFlap
       );
-      dummy.scale.set(bird.scale, bird.scale, bird.scale);
+      dummy.scale.set(scale, scale, scale);
 
       dummy.updateMatrix();
-      meshRef.current!.setMatrixAt(i, dummy.matrix);
-    });
+      meshRef.current.setMatrixAt(i, dummy.matrix);
+    }
 
     meshRef.current.instanceMatrix.needsUpdate = true;
   });
@@ -89,12 +98,13 @@ export default function BirdFlock({ count = 120 }: BirdFlockProps) {
     <instancedMesh
       ref={meshRef}
       args={[pigeonGeometry, undefined, count]}
+      frustumCulled={false}
     >
       <meshBasicMaterial
-        color="#1E2E3C"
+        color="#1A2836"
         side={THREE.DoubleSide}
         transparent
-        opacity={0.8}
+        opacity={0.75}
       />
     </instancedMesh>
   );
